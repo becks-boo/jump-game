@@ -5,22 +5,19 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject obstaclePrefab;
+    public GameObject paperPrefab;
     private Vector3 spawnPos = new Vector3(30, 0, 0);
+    private Vector3 paperSpawnPos = new Vector3(16, 1, 0);
+    private float paperSpawnRangeY;
     private float startDelay = 2;
     private float repeatRate = 2;
     private PlayerController playerControllerScript;
 
-    // Start is called before the first frame update
     void Start()
     {
         InvokeRepeating("SpawnObstacle", startDelay, repeatRate);
+        InvokeRepeating("SpawnPaper", startDelay, repeatRate);
         playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void SpawnObstacle()
@@ -28,6 +25,15 @@ public class SpawnManager : MonoBehaviour
         if (playerControllerScript.gameOver == false) 
         {
             Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);
+        }
+    }
+
+    void SpawnPaper()
+    {
+        if (playerControllerScript.gameOver == false) 
+        {
+            paperSpawnPos = new Vector3(16, Random.Range(1, 10), 0);
+            Instantiate(paperPrefab, paperSpawnPos, paperPrefab.transform.rotation);
         }
     }
 }
