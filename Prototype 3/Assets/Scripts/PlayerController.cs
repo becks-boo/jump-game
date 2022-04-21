@@ -7,13 +7,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     private Animator playerAnim;
     private AudioSource playerAudio;
-    private static int jumpCount;
+    private static int jumpCount = 0;
     private Vector3 originalGravity;
     public AudioClip jumpSound;
     public AudioClip crashSound;
     public ParticleSystem explosionParticle;
     public ParticleSystem dirtParticle;
-    public float jumpForce = 5;
+    public float jumpForce;
     public float gravityModifier;
     public bool isOnGround = true;
     public bool gameOver = false;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !gameOver && jumpCount < 2)
         {
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerRb.AddForce(Vector3.up * (jumpForce / (jumpCount + 1)), ForceMode.Impulse);
             isOnGround = false;
             playerAnim.SetTrigger("Jump_trig");
             dirtParticle.Stop();
